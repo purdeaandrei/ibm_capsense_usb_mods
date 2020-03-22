@@ -89,7 +89,7 @@ kbdCalibrate(void)
 				continue;
 
 			for (uint8_t row = 0; row < KBD_ROWS; row++) {
-				if (scanState[col][row] < 0) {
+				if (getScanState(col,row) < 0) {
 					uint8_t sc = layersMatrix[col][row];
 					if (sc != KBD_SC_IGNORED &&
 					    sc != KBD_SC_CAL_HI)
@@ -137,7 +137,7 @@ kbdCalibrate(void)
 				continue;
 
 			for (uint8_t row = 0; row < KBD_ROWS; row++) {
-				if (scanState[col][row] > 0) {
+				if (getScanState(col,row) > 0) {
 					uint8_t sc = layersMatrix[col][row];
 					if (sc == KBD_SC_CAL_HI)
 						pressedHiKeys++;
@@ -189,10 +189,22 @@ kbdUpdateSCBmp(void)
 
 	for (uint8_t row = 0; row < KBD_ROWS; row++) {
 		for (uint8_t col = 0; col < KBD_COLS; col++) {
-			if (scanState[col][row] > 0) {
+			if (getScanState(col,row) > 0) {
 				uint8_t sc = layersMatrix[col][row];
+				if (isStickyLayer(col, row))
+				{
+					uint8_t stickylayer = getStickyLayer(col, row);
+					if (stickylayer != layersSelectedLayer)
+					{
+						sc = layersGetScancode(stickylayer, col, row);
+					}
+				} else {
+					setStickyLayer(col, row, layersSelectedLayer);
+				}
 				if (sc <= 0xe7)
 					kbdSCBmp[sc / 8] |= (1 << (sc % 8));
+			} else {
+				clearStickyLayer(col, row);
 			}
 		}
 	}
