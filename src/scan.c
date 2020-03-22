@@ -156,12 +156,12 @@ ISR(TIMER1_COMPA_vect)
 		for (uint8_t i = 0; i < KBD_ROWS; i++) {
 			uint8_t previousScanStateItem = getScanState(currCol, i);
 			if (scan[i]) {
-				uint8_t nextScanStateItem = previousScanStateItem - 1;
+				int8_t nextScanStateItem = previousScanStateItem - 1;
 				if (nextScanStateItem < SCAN_DB_THRESH)
 					nextScanStateItem = 0;
 				setScanState(currCol, i, nextScanStateItem);
 			} else {
-				uint8_t nextScanStateItem = previousScanStateItem + 1;
+				int8_t nextScanStateItem = previousScanStateItem + 1;
 				if (nextScanStateItem >= SCAN_DB_THRESH)
 					nextScanStateItem = SCAN_DB_TOP;
 				setScanState(currCol, i, nextScanStateItem);
