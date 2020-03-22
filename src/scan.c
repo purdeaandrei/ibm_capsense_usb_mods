@@ -17,7 +17,7 @@
 #include "scan.h"
 
 volatile uint8_t scanTick;
-volatile int8_t  scanState[KBD_COLS][KBD_ROWS];
+volatile int8_t  scanStateAndAssociatedLayer[KBD_COLS][KBD_ROWS];
 
 static uint8_t currCol;
 
@@ -27,7 +27,7 @@ static uint8_t currCol;
 void
 scanInit(void)
 {
-	memset(scanState, 0, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
+	memset(scanStateAndAssociatedLayer, 0, sizeof(scanStateAndAssociatedLayer[0][0]) * KBD_COLS * KBD_ROWS);
 }
 
 /*
@@ -66,7 +66,7 @@ scanDisable(void)
 	TCCR1B = 0;
 
 	/* clear scan state */
-	memset(scanState, 0, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
+	memset(scanStateAndAssociatedLayer, 0, sizeof(scanStateAndAssociatedLayer[0][0]) * KBD_COLS * KBD_ROWS);
 }
 
 /*
@@ -154,14 +154,17 @@ ISR(TIMER1_COMPA_vect)
 #endif
 
 		for (uint8_t i = 0; i < KBD_ROWS; i++) {
+			uint8_t previousScanStateItem = getScanState(currCol, i);
 			if (scan[i]) {
-				scanState[currCol][i]--;
-				if (scanState[currCol][i] < SCAN_DB_THRESH)
-					scanState[currCol][i] = 0;
+				uint8_t nextScanStateItem = previousScanStateItem - 1;
+				if (nextScanStateItem < SCAN_DB_THRESH)
+					nextScanStateItem = 0;
+				setScanState(currCol, i, nextScanStateItem);
 			} else {
-				scanState[currCol][i]++;
-				if (scanState[currCol][i] >= SCAN_DB_THRESH)
-					scanState[currCol][i] = SCAN_DB_TOP;
+				uint8_t nextScanStateItem = previousScanStateItem + 1;
+				if (nextScanStateItem >= SCAN_DB_THRESH)
+					nextScanStateItem = SCAN_DB_TOP;
+				setScanState(currCol, i, nextScanStateItem);
 			}
 		}
 	}

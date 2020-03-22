@@ -90,6 +90,19 @@ layersSetScancode(uint8_t layer, uint8_t col, uint8_t row, uint8_t sc)
 /*
  *
  */
+uint8_t
+layersGetScancode(uint8_t layer, uint8_t col, uint8_t row)
+{
+	const uint8_t *addr = layersEEPAddr(layer) + row + col * KBD_ROWS;
+	uint8_t sc = eeprom_read_byte(addr);
+	if (sc == 0xff)
+		sc = KBD_SC_IGNORED;
+	return sc;
+}
+
+/*
+ *
+ */
 void
 layersLoadConditions(void)
 {

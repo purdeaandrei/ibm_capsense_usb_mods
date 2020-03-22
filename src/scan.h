@@ -33,7 +33,13 @@
 #define SCAN_DB_TOP    7
 
 extern volatile uint8_t scanTick;
-extern volatile int8_t  scanState[KBD_COLS][KBD_ROWS];
+extern volatile int8_t  scanStateAndAssociatedLayer[KBD_COLS][KBD_ROWS];
+#define getScanState(col, row) (scanStateAndAssociatedLayer[col][row] & SCAN_DB_TOP)
+#define setScanState(col, row, state) do { scanStateAndAssociatedLayer[col][row]=((scanStateAndAssociatedLayer[col][row] & ~SCAN_DB_TOP) | ((state) & SCAN_DB_TOP)); }  while (0)
+#define isStickyLayer(col, row) (scanStateAndAssociatedLayer[col][row] & (1 << 7))
+#define getStickyLayer(col, row) ((scanStateAndAssociatedLayer[col][row] >> 5) & 3)
+#define setStickyLayer(col, row, layer) do { scanStateAndAssociatedLayer[col][row] = (scanStateAndAssociatedLayer[col][row] & 0x1f) | (1 << 7) | ((layer & 3) << 5); } while (0)
+#define clearStickyLayer(col, row) do { scanStateAndAssociatedLayer[col][row] &= ~(1 << 7); } while (0)
 
 void scanInit(void);
 void scanEnable(void);

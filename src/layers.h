@@ -29,6 +29,7 @@ extern uint8_t layersSelectedLayer;
 void layersInit(void);
 void layersLoad(uint8_t layer);
 void layersSetScancode(uint8_t layer, uint8_t col, uint8_t row, uint8_t sc);
+uint8_t layersGetScancode(uint8_t layer, uint8_t col, uint8_t row);
 void layersSetCondition(uint8_t idx, uint8_t val);
 void layersProcessScan(void);
 

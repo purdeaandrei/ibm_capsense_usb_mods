@@ -58,7 +58,7 @@ diagReportKbd(uint8_t *reportData, uint8_t startCol, uint8_t endCol)
 
 	for (uint8_t col = startCol; col <= endCol; col++, currByte++)
 		for (uint8_t row = 0; row < KBD_ROWS; row++)
-			if (scanState[col][row] >= SCAN_DB_THRESH)
+			if (getScanState(col,row) >= SCAN_DB_THRESH)
 				reportData[currByte] |= (1 << row);
 }
 
