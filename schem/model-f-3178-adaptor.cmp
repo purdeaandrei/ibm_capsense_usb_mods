@@ -1,0 +1,21 @@
+<<<<<<< Updated upstream
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Fri 23 May 2014 23:18:19 NZST
+=======
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Mon 09 Jun 2014 16:41:28 NZST
+>>>>>>> Stashed changes
+
+BeginCmp
+TimeStamp = /5347CF26;
+Reference = PMF1;
+ValeurCmp = Model-F-USB;
+IdModule  = PIN_ARRAY_3_96-30X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /5370351F;
+Reference = PMF2;
+ValeurCmp = Kbd-3178;
+IdModule  = PIN_ARRAY_3_96-30X1_large_pads;
+EndCmp
+
+EndListe
