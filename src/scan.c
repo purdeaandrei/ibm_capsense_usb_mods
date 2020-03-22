@@ -156,7 +156,7 @@ ISR(TIMER1_COMPA_vect)
 		for (uint8_t i = 0; i < KBD_ROWS; i++) {
 			int8_t nextScanStateItem = getScanState(currCol, i);
 			if (scan[i]) { // scan -> released
-				if (nextScanStateItem) { // scan state -> pressed
+				if (nextScanStateItem > 0) { // scan state -> pressed
 					if (++nextScanStateItem >= SCAN_DB_THRESH_TOP)
 						nextScanStateItem = -1;
 				} else // scan state -> released
