@@ -27,7 +27,7 @@ static uint8_t currCol;
 void
 scanInit(void)
 {
-	memset(scanState, 0, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
+	memset(scanState, -1, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
 }
 
 /*
@@ -66,7 +66,7 @@ scanDisable(void)
 	TCCR1B = 0;
 
 	/* clear scan state */
-	memset(scanState, 0, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
+	memset(scanState, -1, sizeof(scanState[0][0]) * KBD_COLS * KBD_ROWS);
 }
 
 /*
@@ -154,14 +154,18 @@ ISR(TIMER1_COMPA_vect)
 #endif
 
 		for (uint8_t i = 0; i < KBD_ROWS; i++) {
-			if (scan[i]) {
-				scanState[currCol][i]--;
-				if (scanState[currCol][i] < SCAN_DB_THRESH)
-					scanState[currCol][i] = 0;
-			} else {
-				scanState[currCol][i]++;
-				if (scanState[currCol][i] >= SCAN_DB_THRESH)
-					scanState[currCol][i] = SCAN_DB_TOP;
+			if (scan[i]) { // scan -> released
+				if (scanState[currCol][i] > 0) { // scan state -> pressed
+					if (++scanState[currCol][i] >= SCAN_DB_THRESH_TOP)
+						scanState[currCol][i] = -1;
+				} else // scan state -> released
+					scanState[currCol][i] = -1;
+			} else { // scan -> pressed
+				if (scanState[currCol][i] < 0) { // scan state -> released
+					if (--scanState[currCol][i] <= SCAN_DB_THRESH_BOTTOM)
+						scanState[currCol][i] = 1;
+				} else // scan state -> pressed
+					scanState[currCol][i] = 1;
 			}
 		}
 	}

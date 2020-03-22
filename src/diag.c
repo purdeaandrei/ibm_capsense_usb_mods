@@ -19,7 +19,7 @@
 #if defined (__AVR_ATmega8U2__)
 void (*bootloader)(void) = (void *)0x0800;
 #elif defined (__AVR_ATmega32U2__)
-void (*bootloader)(void) = (void *)0x1800;
+void (*bootloader)(void) = (void *)0x3800;
 #endif
 
 static DiagReportState diagReportState;
@@ -58,7 +58,7 @@ diagReportKbd(uint8_t *reportData, uint8_t startCol, uint8_t endCol)
 
 	for (uint8_t col = startCol; col <= endCol; col++, currByte++)
 		for (uint8_t row = 0; row < KBD_ROWS; row++)
-			if (scanState[col][row] >= SCAN_DB_THRESH)
+			if (scanState[col][row] > 0)
 				reportData[currByte] |= (1 << row);
 }
 

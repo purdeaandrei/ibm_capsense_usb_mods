@@ -17,8 +17,8 @@ BOARD_TYPE    = MODEL_F
 BOARD_REV     = 1
 
 # USB current would normally be 100, unless used with solenoid driver---use 500
-USB_CURRENT   = 100
-#USB_CURRENT   = 500
+#USB_CURRENT   = 100
+USB_CURRENT   = 500
 
 # Should normally leave set to KEY_POLARITY_AUTO, in which case will figure it
 # out from board type. Overrides useful for things like weirdo 3178-lookalikes
@@ -27,7 +27,7 @@ KEY_POLARITY  = KEY_POLARITY_AUTO        # figure out from board type
 #KEY_POLARITY  = KEY_POLARITY_ACTIVE_HIGH # Model Fs, Amkey etc.
 #KEY_POLARITY  = KEY_POLARITY_ACTIVE_LOW  # Beamsprings
 
-VERSION      = 0.9.0
+VERSION      = 0.9.1
 
 MCU          = atmega32u2
 ARCH         = AVR8
