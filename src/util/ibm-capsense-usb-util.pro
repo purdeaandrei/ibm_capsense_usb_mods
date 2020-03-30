@@ -25,7 +25,6 @@ QMAKE_CXXFLAGS += -std=c++0x -g
 unix:!macx {
     LIBS += -lhidapi-libusb
     INCLUDEPATH += \
-        /usr/include \
         /usr/include/hidapi
     CONFIG += debug silent
 }
