@@ -28,6 +28,10 @@ void
 scanInit(void)
 {
 	memset(scanStateAndAssociatedLayer, 0x1f, sizeof(scanStateAndAssociatedLayer[0][0]) * KBD_COLS * KBD_ROWS);
+	#if defined(MODEL_F)
+		PORTC |= 0xF0;
+		PORTD |= 0x0F;
+	#endif
 }
 
 /*
