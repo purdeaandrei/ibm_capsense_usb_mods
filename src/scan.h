@@ -29,7 +29,7 @@
 #endif
 
 /* when changing these numbers, remember counting starts from (-)1 */
-#define SCAN_DB_THRESH_TOP    11 // column-scan interrupt period * number of unskipped columns * (SCAN_DB_THRESH_TOP - 1) = steady state period
+#define SCAN_DB_THRESH_TOP    6 // column-scan interrupt period * number of unskipped columns * (SCAN_DB_THRESH_TOP - 1) = steady state period
 #define SCAN_DB_THRESH_BOTTOM -SCAN_DB_THRESH_TOP
 
 extern volatile uint8_t scanTick;
