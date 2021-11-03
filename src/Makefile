@@ -27,7 +27,7 @@ KEY_POLARITY  = KEY_POLARITY_AUTO        # figure out from board type
 #KEY_POLARITY  = KEY_POLARITY_ACTIVE_HIGH # Model Fs, Amkey etc.
 #KEY_POLARITY  = KEY_POLARITY_ACTIVE_LOW  # Beamsprings
 
-VERSION      = 0.9.1
+VERSION      = 0.9.3
 
 MCU          = atmega32u2
 ARCH         = AVR8
